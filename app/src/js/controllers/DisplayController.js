@@ -1,10 +1,12 @@
-angular.module('resthitter').controller('DisplayController', ['Name', '$routeParams', function(Name, $routeParams){
+angular.module('resthitter').controller('DisplayController', ['Name', '$routeParams', '$location', function(Name, $routeParams, $location){
   var dc = this;
 
-  dc.name = Name.get({id: $routeParams.myid}, function(name, getResponseHeaders){
+  dc.name = Name.get({id: $routeParams.myid}, function(name){
     console.log("Name.get");
-    console.log(name);
-    console.log(getResponseHeaders);
   });
+
+  dc.editView = function(){
+    $location.path('/'+dc.name.id+'/edit');
+  };
 
 }]);

@@ -10,6 +10,16 @@ angular.module('resthitter', ['ui.bootstrap', 'ngResource', 'ngRoute'])
     templateUrl: 'templates/detail.html',
     controller: 'DisplayController',
     controllerAs: 'dc'
+  })
+  .when('/:myid/edit', {
+    templateUrl: 'templates/edit.html',
+    controller: 'EditController',
+    controllerAs: 'ec'
+  })
+  .when('/edit', { // going to wrong route because /:myid up there could be a string!
+    templateUrl: 'templates/edit.html',
+    controller: 'EditController',
+    controllerAs: 'ec'
   });
 
 
