@@ -1,5 +1,6 @@
 var express = require('express');
-//var bodyparser = require('')
+// body-parser populates the request.body object, allowing POST vars to be parsed
+var bodyParser = require('body-parser')
 var app = express();
 
 var names = [
@@ -14,6 +15,8 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(bodyParser.json());
+
 app.use(function(req, res, next) {
   var date = new Date();
   console.log(date + " " + res.statusCode + " " + req.method + " " + req.url);
@@ -23,7 +26,6 @@ app.use(function(req, res, next) {
 app.get('/names', function(req, res){
   console.log("getting /names");
   //res.send("hello");
-
   res.json(names);
 
 });
@@ -34,12 +36,27 @@ app.get('/names/:id', function(req, res){
     if(name.id == req.params.id){
       console.log(name);
       res.json(name);
+      return;
     }
   });
-  //res.status(404).json({error: "not found"});
 });
 
-
-
+app.post('/names', function(req, res){
+  console.log("posting /names");
+  console.log(req.body);
+  var postedName = req.body;
+  var found = false;
+  for(var i = 0; i < names.length; i++){
+    console.log(names[i].id + "::" + postedName.id);
+    if(names[i].id == postedName.id){
+      names[i] = postedName;
+      found = true;
+    }
+  }
+  if(!found){
+    names.push(postedName);
+  }
+  res.end();
+});
 
 app.listen(7000);
