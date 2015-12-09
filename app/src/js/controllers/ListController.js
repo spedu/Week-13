@@ -1,4 +1,4 @@
-angular.module('resthitter').controller('ListController', ['People', function(People){
+angular.module('resthitter').controller('ListController', [function(){
   var lc = this;
   lc.people = [
     {id: 1, name: "Steve", twitter: "@steveyeun"},
@@ -6,12 +6,5 @@ angular.module('resthitter').controller('ListController', ['People', function(Pe
     {id: 3, name: "Lauren", twitter: "@LaurenCohan"},
     {id: 4, name: "Danai", twitter: "@DanaiGurira"}
   ];
-  lc.people = People.query();
-
-  lc.delete = function(id){
-    People.delete({id: id}, function(){
-      lc.people = People.query();
-    });
-  };
 
 }]);
