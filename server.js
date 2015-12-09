@@ -45,6 +45,19 @@ app.post('/names', function(req, res){
   console.log("posting /names");
   console.log(req.body);
   var postedName = req.body;
+
+  var found = false;
+  names.forEach(function(name, index, arr){
+    if(name.id == postedName.id){
+      names[index] = postedName;
+      found = true;
+    }
+  });
+  if(!found){
+    names.push(postedName);
+  }
+  res.end();
+/*
   var found = false;
   for(var i = 0; i < names.length; i++){
     console.log(names[i].id + "::" + postedName.id);
@@ -57,6 +70,8 @@ app.post('/names', function(req, res){
     names.push(postedName);
   }
   res.end();
+*/
+
 });
 
 app.listen(7000);
