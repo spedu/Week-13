@@ -1,5 +1,6 @@
-angular.module('resthitter', ['ui.bootstrap', 'xeditable', 'ngResource', 'ngRoute'])
+angular.module('resthitter', ['ui.bootstrap', 'xeditable', 'ngRoute'])
 .run(['editableOptions', function(editableOptions){
+  // this is something added by xeditable indicating what icons are available
   editableOptions.theme = 'bs3';
 }])
 .config(['$routeProvider', function($routeProvider){
@@ -9,19 +10,9 @@ angular.module('resthitter', ['ui.bootstrap', 'xeditable', 'ngResource', 'ngRout
     controller: 'ListController',
     controllerAs: 'lc'
   })
-  .when('/name/:myid', {
+  .when('/person/:id', {
     templateUrl: 'templates/detail.html',
-    controller: 'DisplayController',
+    controller: 'DetailController',
     controllerAs: 'dc'
-  })
-  .when('/name/:myid/edit', {
-    templateUrl: 'templates/edit.html',
-    controller: 'EditController',
-    controllerAs: 'ec'
-  })
-  .when('/name/edit', { // going to wrong route because /:myid up there could be a string!
-    templateUrl: 'templates/edit.html',
-    controller: 'EditController',
-    controllerAs: 'ec'
   });
 }]);
