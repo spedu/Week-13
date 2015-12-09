@@ -1,58 +1,58 @@
 # Week 13: Node and Express and Angular's $resource
 *because, just because*
 
-## A Simple API
+## A Simple Server
 *the most basic express application*
 
-1. npm install express
-2. run it with an output hello something
+1. Install express on the server's package.json
+  * `npm install express`
+2. Require express
+  * `var express = require('express');`
+3. Create an express "app"
+  * `var app = express();`
+4. Use the app to create a route to the root ('/')
 
 ```
-var app = express();
-
 app.get('/', function(req, res) {
   res.send('okay, yeah');
 });
 ```
 
+Note: `res.send(something)` is just an express wrapper for `res.end(something)`, so it's doing a `write(something)` followed by an `end()`. It also does some encoding and status code checks.
+
 ## Send as json
 *together*
 
-1. Create an object
-2. `app.json(objectyoujustcreated);`
+1. Take the array from the `ListController` in the angular app
+  * `var people = [ ... ];`
+2. Send the json
+  * `app.send(people);`
+  * `app.send(JSON.stringify(people));``
+2. Use `app.json()` to "send" the array
+  * `app.json(people);`
+  * browsers are probably all smart enough to detect when you're sending json, but it's nice to be explicit
+3. Check it in a browser
 
 ## Logging Middleware
 *together*
 
-1. Implement some logging
-2. Create some middleware
-3. `next()` is important
+1. Use an anonymous function before any routes
+  * `app.use(function(req, res){ ... })`
+  * this is a pipeline for the request and response streams
+  * the function will require a `next();` function if you want anything to happen after it
+  * if you place it after any routes, it will never run
+2. Console log the `date`, the `method` and the `url`
+  * `console.log((new Date()).toString() + " " + req.method + " " + req.url)`
 
-```
-app.use(function(req, res){
- console.log((new Date()).toString() + " " + req.method + " " + req.url);
- next();
-});
-```
-
-## Set up some data
-*together*
-
-1. Normally you'd be doing this with a database of some sort, we're just trying to keep it simple
-  * **Note:** people often use nosql solutions with Node, there's typically not much of a reason for this other than they're caught up in buzzword bingo. As long as your database call is asynchronous (it doesn't block operations) it's fine.
-2. Just create an array of data...
-
-```
-var people = [
- {id: 1, name: 'JaZahn', email: 'jcleveng@fas.harvard.edu'}
-];
-```
+Note: This is not a great logging solution, it's not handling errors or status codes. For that you'll want a real express middleware logging solution. It's just logging is such a nice and easy thing to show you some easy middleware.
 
 ## Routing
 *together*
 
 1. Create a route for a listing
   * `app.get('/people', function(req, res){ ... });`
+  * the root route is fine for us right now, but it's not RESTful
+  * RESTful does have a few rules, like
 2. Send the data
   * `res.send(JSON.stringify(people));`
 3. That will work, but there's a convenience method in express for this
@@ -184,3 +184,10 @@ Note: this can also be done with a call to the `$resource` factory
   * `$location` is an angular wrapper for `window.location`
 2. Use the `.then()` promise chained success function to change the location
   * `$location.path('/');`
+
+## Download Postman
+*together*
+
+1. Google postman while in chrome
+  * Postman is a chrome app/extension
+2. Use it to ping the server we have now
