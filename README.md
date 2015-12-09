@@ -265,3 +265,24 @@ Note: this can also be done with a call to the `$resource` factory
   * `people.push(postedPerson);`
 4. What are the obvious flaws with this?
   * *hint: if we added a delete...*
+
+## Delete an entry
+*together*
+
+1. Add a delete button to the list template with an `ng-click`
+  * `<button class="btn" ng-click="lc.delete(person.id)">delete</button>`
+2. Create the `delete(id)` function
+  * `lc.delete = function(id){ ... };`
+3. Send a `DELETE` request to the server
+  * `People.delete({id: id});`
+  * remember, this is like sending a `DELETE` request to `http://localhost:7000/people/:id`
+4. Try it
+5. Alter CORS to allow `DELETE`
+  * `res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');`
+6. Create a delete route on the server
+  * `app.delete('/people/:id', function(req, res){ ... })`
+7. Find and delete the entry
+  * `people.splice(index);`
+  * don't forget to `res.end()`
+8. Return a `404` if you didn't find it
+  * `res.status(404).end();`

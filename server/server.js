@@ -11,6 +11,7 @@ app.use(function(req, res, next){
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
   next();
 });
 
@@ -58,6 +59,18 @@ app.post('/people', function(req, res){
     people.push(postedPerson);
     res.end();
   }
+  res.status(404).end();
+
+});
+
+app.delete('/people/:id', function(req, res){
+  // var id = req.params.id;
+  people.forEach(function(person, index){
+    if(person.id == req.params.id){
+      people.splice(index);
+      res.end();
+    }
+  });
   res.status(404).end();
 
 });
