@@ -6,7 +6,13 @@ angular.module('resthitter').controller('DisplayController', ['Name', '$routePar
   });
 
   dc.editView = function(){
-    $location.path('/'+dc.name.id+'/edit');
+    $location.path('/name/'+dc.name.id+'/edit');
+  };
+
+  dc.save = function(){
+    dc.name.$save().then(function(){
+      $location.path('/');
+    });
   };
 
 }]);

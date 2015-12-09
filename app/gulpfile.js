@@ -19,7 +19,8 @@ gulp.task('buildVendor', function(){
   return gulp.src(['bower_components/angular/angular.min.js',
                     'bower_components/angular-resource/angular-resource.min.js',
                     'bower_components/angular-route/angular-route.min.js',
-                    'bower_components/angular-bootstrap/ui-bootstrap.js'])
+                    'bower_components/angular-bootstrap/ui-bootstrap.js',
+                    'bower_components/angular-xeditable/dist/js/xeditable.min.js'])
   .pipe(concat('vendor.js'))
   .pipe(gulp.dest('build/js'));
 });
@@ -27,7 +28,8 @@ gulp.task('buildVendor', function(){
 gulp.task('buildVendorCSS', function(){
   return gulp.src(['bower_components/angular/angular-csp.css',
                     'bower_components/angular-bootstrap/ui-bootstrap-csp.css',
-                    'bower_components/bootstrap/dist/css/bootstrap.min.css'])
+                    'bower_components/bootstrap/dist/css/bootstrap.min.css',
+                    'bower_components/angular-xeditable/dist/css/xeditable.css'])
   .pipe(concat('vendor.css'))
   .pipe(gulp.dest('build/css'));
 });

@@ -4,14 +4,14 @@ angular.module('resthitter').controller('EditController', ['Name', '$routeParams
   ec.name = Name.get({id: $routeParams.myid});
 
   ec.submit = function(){
-    //Name.save({}, ec.name, function(){
-    //  $location.path('/' + ec.name.id);
-    //});
 
-    var name = new Name(ec.name);
     ec.name.$save().then(function(){
-      console.log("asdf");
-      $location.path('/' + name.id);
-    })
+      $location.path('/name/' + name.id);
+    });
+    /*
+    Name.save({}, ec.name, function(){
+      $location.path('/name/' + name.id);
+    });
+    */
   };
 }]);

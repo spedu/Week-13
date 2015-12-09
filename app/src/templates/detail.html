@@ -1,3 +1,3 @@
-<h1>{{ dc.name.name }}</h1>
-<div>{{ dc.name.description }}</div>
-<button class="btn" ng-click="dc.editView()">edit</button>
+<h1><span editable-text="dc.name.name">{{ dc.name.name }}</span></h1>
+<div><span editable-text="dc.name.description">{{ dc.name.description }}</span></div>
+<button class="btn" ng-click="dc.save()">save</button>
