@@ -1,4 +1,5 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 
 var app = express();
 
@@ -12,6 +13,8 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.use(bodyParser.json());
 
 var people = [
   {id: 1, name: "Steve", twitter: "@steveyeun"},
@@ -39,6 +42,19 @@ app.get('/people/:id', function(req, res){
       }
     }, 10);
   });
+});
+
+app.post('/people', function(req, res){
+  // because of body-parser, req.body now has the json sent to us
+  var postedPerson = req.body;
+  people.forEach(function(person, index){
+    if(person.id == postedPerson.id){
+      people[index] = postedPerson;
+      res.end();
+    }
+  });
+  res.status(404).end();
+
 });
 
 app.listen(7000);

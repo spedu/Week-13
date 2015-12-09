@@ -155,7 +155,7 @@ app.get('/people/:id', function(req, res){
 });
 ```
 
-Note: `forEach`, (as well as any vanilla loop) is going to be a synchronous process. This means it will be blocking. This is partly why people store data in noSQL solutions when working with Node, so lookups can be offloaded to Mongo or whatever with an async call. But we can also "simulate asynchronisity" by simply wrapping the interior with a setTimeout()... But then the `404` will get called before it has a chance to check them, so you'll have to handle that somehow. You could use a lib for handling async functions or even a promise pattern -- or just use a counter. But these are the problems running Node has.
+Note: `forEach`, (as well as any vanilla loop) is going to be a synchronous process. This means it will be blocking. This is partly why people store data in noSQL solutions when working with Node, so lookups can be offloaded to Mongo or Redis or whatever with an async call. But we can also "simulate asynchronisity" by simply wrapping the interior with a setTimeout()... But then the `404` will get called before it has a chance to check them, so you'll have to handle that somehow. You could use a lib for handling async functions or even a promise pattern -- or just use a counter. But these are the problems running Node has.
 
 ```
 var counter = 0;
@@ -176,7 +176,7 @@ people.forEach(function(person){
 ## Save an edit
 *together*
 
-1. Since we're using [xeditable](http://vitalets.github.io/angular-xeditable/) we have some directives available to us
+1. Since we have included [xeditable](http://vitalets.github.io/angular-xeditable/), we have some directives available to us
   * add the attribute `editable-text` to the name and email texts
   * use them the same way you would use `ng-model`
   * `<h1 editable-text="dc.person.name">{{ dc.person.name }}</h1>`
@@ -187,6 +187,7 @@ people.forEach(function(person){
   * `dc.person.$save();`
   * Note: this returns a promise, so we can chain it with a `.then(success, failure);`
   * use this `success` function to console log something to let us know if we're succeeding!
+
 ```
 dc.person.$save().then(function(){
  console.log("success!");
@@ -196,7 +197,7 @@ dc.person.$save().then(function(){
 Note: this can also be done with a call to the `$resource` factory
   * `Name.save({}, dc.person, function(){ console.log("success!"); });`
   * where the first param is `$resource` params
-  * the second param is the `POST` body
+  * the second param is the `POST`'s body
     * in this case, we're posting the json for the `person`
   * the third param is a success callback
 
