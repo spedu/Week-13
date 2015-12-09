@@ -134,7 +134,15 @@ Note: [Cross Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin
   * `app.get('/people/:id', function(req, res){ ... });`
   * the id is now available on `req.params.id`, courtesy of express
 2. If we find that `req.params.id` in the people array, return the corresponding person object
+  * `forEach` or some other loopish structure
+    * `people.forEach(function(person){ ... });`
+    * `for(var index = 0; i < people.length; i++){ ... }`
+  * an `if` checking the id of each array element
+    * `if(person.id == req.params.id){ ... }`
+  * return the matching element
+    * `return person;`
 3. If we don't find it, send a `404`
+  * `res.status(404).end();`
 
 ```
 app.get('/people/:id', function(req, res){
@@ -144,6 +152,24 @@ app.get('/people/:id', function(req, res){
     }
   });
   res.status(404).end();
+});
+```
+
+Note: `forEach`, (as well as any vanilla loop) is going to be a synchronous process. This means it will be blocking. This is partly why people store data in noSQL solutions when working with Node, so lookups can be offloaded to Mongo or whatever with an async call. But we can also "simulate asynchronisity" by simply wrapping the interior with a setTimeout()... But then the `404` will get called before it has a chance to check them, so you'll have to handle that somehow. You could use a lib for handling async functions or even a promise pattern -- or just use a counter. But these are the problems running Node has.
+
+```
+var counter = 0;
+people.forEach(function(person){
+  setTimeout(function(){
+    if(person.id == req.params.id){
+      res.json(person);
+    }
+    counter++;
+    if(counter == people.length){
+      // then we've gone through them all and it wasn't found
+      res.status(404).end();
+    }
+  }, 10);
 });
 ```
 

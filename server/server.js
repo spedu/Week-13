@@ -26,12 +26,19 @@ app.get('/people', function(req, res){
 
 app.get('/people/:id', function(req, res){
   // id = req.params.id
+  var counter = 0;
   people.forEach(function(person){
-    if(person.id == req.params.id){
-      res.json(person);
-    }
+    setTimeout(function(){
+      if(person.id == req.params.id){
+        res.json(person);
+      }
+      counter++;
+      if(counter == people.length){
+        // then we've gone through them all and it wasn't found
+        res.status(404).end();
+      }
+    }, 10);
   });
-  res.status(404).end();
 });
 
 app.listen(7000);
