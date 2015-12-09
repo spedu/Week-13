@@ -286,3 +286,8 @@ Note: this can also be done with a call to the `$resource` factory
   * don't forget to `res.end()`
 8. Return a `404` if you didn't find it
   * `res.status(404).end();`
+9. In the controller, after a delete, refresh the data
+  * `People.delete({id: id}, function(){ ... });`
+  * `lc.people = People.query();`
+  * Note: in a real scenario, you probably wouldn't want to be hammering the server -- if your `DELETE` came back with a success, you should remove it from the existing `lc.people` array
+    * thankfully, this isn't real. Go home.
