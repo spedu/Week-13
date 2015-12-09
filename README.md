@@ -122,10 +122,30 @@ Note: [Cross Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin
   * current `id` is `$routeParams.id`
     * it's getting this from the `$routeProvider` config in app.js
 2. Set the value of the person variable to the `$resource.get()` for the current id
-  * `var person = People.get({id: $routeParams.id})`
+  * `var person = People.get({id: $routeParams.id});`
   * that object parameter is the parameter set in the $resource definition in the service
   * so it's equivalent to sending a `GET` request to: `http://localhost:7000/people/1`
 3. Make sure the appropriate value gets displayed on the template
+
+## Create the single route
+*together*
+
+1. Create a new route, similar to the format of our angular `$routeParams` and `$resource`
+  * `app.get('/people/:id', function(req, res){ ... });`
+  * the id is now available on `req.params.id`, courtesy of express
+2. If we find that `req.params.id` in the people array, return the corresponding person object
+3. If we don't find it, send a `404`
+
+```
+app.get('/people/:id', function(req, res){
+  people.forEach(function(person){
+    if(person.id == req.params.id){
+      res.json(person);
+    }
+  });
+  res.status(404).end();
+});
+```
 
 ## Save an edit
 *together*

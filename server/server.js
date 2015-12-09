@@ -24,4 +24,14 @@ app.get('/people', function(req, res){
   res.json(people);
 });
 
+app.get('/people/:id', function(req, res){
+  // id = req.params.id
+  people.forEach(function(person){
+    if(person.id == req.params.id){
+      res.json(person);
+    }
+  });
+  res.status(404).end();
+});
+
 app.listen(7000);
