@@ -236,9 +236,32 @@ Note: this can also be done with a call to the `$resource` factory
 2. Use the `.then()` promise chained success function to change the location
   * `$location.path('/');`
 
-## Download Postman
+## Add a new item
 *together*
 
-1. Google postman while in chrome
-  * Postman is a chrome app/extension
-2. Use it to ping the server we have now
+1. Add a button to the list view
+  * actually, a link will be more to the point, but we can make it look like a button
+  * `<a class="btn btn-info" href="/#/new">new</a>`
+2. Create the new route -- just have it go to the detail template
+  * `.when('/new', { ... })`
+  * just populate the route the same as the edit route
+3. In the Controller, check for an undefined `$routeParam.id`
+  * `if($routeParam.id === undefined){ ... }`
+4. If it's not defined, create a new `People` object and populate it with some default values
+  * `var dc.person = new Person();`
+  * `dc.person.name = "placeholder";`
+  * `dc.person.twitter = "@placeholder";`
+  * if it is defined, just do what we were doing before
+5. Try it
+
+## Fix the POST server route
+*together*
+
+1. If it gets through the `forEach`, instead of throwing a `404`, check if the id is undefined
+  * `if(postedPerson.id === undefined){ ... }`
+2. Give the posted person an appropriate id
+  * `postedPerson.id = people.length + 1;`
+3. Add the `postedPerson` to the `people` array
+  * `people.push(postedPerson);`
+4. What are the obvious flaws with this?
+  * *hint: if we added a delete...*

@@ -14,5 +14,10 @@ angular.module('resthitter', ['ui.bootstrap', 'xeditable', 'ngRoute', 'ngResourc
     templateUrl: 'templates/detail.html',
     controller: 'DetailController',
     controllerAs: 'dc'
+  })
+  .when('/new', {
+    templateUrl: 'templates/detail.html',
+    controller: 'DetailController',
+    controllerAs: 'dc'
   });
 }]);

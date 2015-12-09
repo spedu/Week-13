@@ -53,6 +53,11 @@ app.post('/people', function(req, res){
       res.end();
     }
   });
+  if(postedPerson.id === undefined){
+    postedPerson.id = people.length + 1;
+    people.push(postedPerson);
+    res.end();
+  }
   res.status(404).end();
 
 });
