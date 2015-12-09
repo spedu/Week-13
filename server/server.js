@@ -2,6 +2,17 @@ var express = require('express');
 
 var app = express();
 
+app.use(function(req, res, next){
+  console.log((new Date()).toString() + " " + req.method + " " + req.url);
+  next();
+});
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 var people = [
   {id: 1, name: "Steve", twitter: "@steveyeun"},
   {id: 2, name: "Norman", twitter: "@wwwbigbaldhead"},
@@ -9,8 +20,8 @@ var people = [
   {id: 4, name: "Danai", twitter: "@DanaiGurira"}
 ];
 
-app.get('/', function(req, res){
-  res.send(people);
+app.get('/people', function(req, res){
+  res.json(people);
 });
 
 app.listen(7000);

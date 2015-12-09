@@ -28,18 +28,18 @@ Note: `res.send(something)` is just an express wrapper for `res.end(something)`,
 2. Send the json
   * `app.send(people);`
   * `app.send(JSON.stringify(people));``
-2. Use `app.json()` to "send" the array
+3. Use `app.json()` to "send" the array
   * `app.json(people);`
-  * browsers are probably all smart enough to detect when you're sending json, but it's nice to be explicit
-3. Check it in a browser
+  * `send()` is actually smart enough to know when you're sending json, but it's nice to be explicit
+4. Check it in a browser
 
 ## Logging Middleware
 *together*
 
 1. Use an anonymous function before any routes
-  * `app.use(function(req, res){ ... })`
+  * `app.use(function(req, res, next){ ... })`
   * this is a pipeline for the request and response streams
-  * the function will require a `next();` function if you want anything to happen after it
+  * the function will require a `next();` function to be called if you want anything to happen after it
   * if you place it after any routes, it will never run
 2. Console log the `date`, the `method` and the `url`
   * `console.log((new Date()).toString() + " " + req.method + " " + req.url)`
@@ -52,11 +52,7 @@ Note: This is not a great logging solution, it's not handling errors or status c
 1. Create a route for a listing
   * `app.get('/people', function(req, res){ ... });`
   * the root route is fine for us right now, but it's not RESTful
-  * RESTful does have a few rules, like
-2. Send the data
-  * `res.send(JSON.stringify(people));`
-3. That will work, but there's a convenience method in express for this
-  * `res.json(people);`
+  * RESTful does have a few rules, like having a single "resource" for making queries against
 
 ## An Angular app for this!
 *together*
@@ -72,7 +68,7 @@ Note: This is not a great logging solution, it's not handling errors or status c
 1. Add ng-resource to the project
   * `bower install angular-resource`
 2. Include it as a dependency on the app (in app.js)
-  * `angular.module('resthitter', ['ui.bootstrap', 'ngRoute', 'ngResource']).config({ ... });`
+  * `angular.module('resthitter', ['ui.bootstrap', 'xeditable', 'ngRoute', 'ngResource']).config({ ... });`
 3. Create a `People` service
   * create a new file under the services directory, `People.js`
   * these are normally created as factories
@@ -101,12 +97,20 @@ Note: This is not a great logging solution, it's not handling errors or status c
 *together*
 
 1. Create a new middleware option
-  * `app.use(function(req, res){ ... });`
+  * `app.use(function(req, res, next){ ... });`
 2. Add the following two headers:
   * `res.header("Access-Control-Allow-Origin", "*");`
   * `res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");`
 3. Call `next();` to pass it through to the next middleware
   * `next();`
+
+```
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+```
 
 Note: [Cross Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) is the most accepted way to subvert the [Single Origin Policy](https://en.wikipedia.org/wiki/Same-origin_policy), which is a security policy to prevent malicious actions. It's up to the server, and it's generally accepted that you're not going to be allowing * unless you're a truly public API -- usually a read-only API will do that. Usually people will at least limit the sharing to *.domain.com.
 

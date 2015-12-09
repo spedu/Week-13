@@ -1,4 +1,4 @@
-angular.module('resthitter', ['ui.bootstrap', 'xeditable', 'ngRoute'])
+angular.module('resthitter', ['ui.bootstrap', 'xeditable', 'ngRoute', 'ngResource'])
 .run(['editableOptions', function(editableOptions){
   // this is something added by xeditable indicating what icons are available
   editableOptions.theme = 'bs3';
