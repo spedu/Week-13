@@ -1,7 +1,7 @@
 angular.module('resthitter', ['ui.bootstrap', 'xeditable', 'ngResource', 'ngRoute'])
-//.run(function(options){
-//  options.theme = 'bs3';
-//})
+.run(['editableOptions', function(editableOptions){
+  editableOptions.theme = 'bs3';
+}])
 .config(['$routeProvider', function($routeProvider){
   $routeProvider
   .when('/', {
@@ -24,6 +24,4 @@ angular.module('resthitter', ['ui.bootstrap', 'xeditable', 'ngResource', 'ngRout
     controller: 'EditController',
     controllerAs: 'ec'
   });
-
-
 }]);

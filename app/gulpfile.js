@@ -34,7 +34,12 @@ gulp.task('buildVendorCSS', function(){
   .pipe(gulp.dest('build/css'));
 });
 
-gulp.task('build', ['moveHTML', 'buildApp', 'buildVendor', 'buildVendorCSS']);
+gulp.task('moveVendorFonts', function(){
+  return gulp.src(['bower_components/bootstrap/dist/fonts/*'])
+  .pipe(gulp.dest('build/fonts'));
+});
+
+gulp.task('build', ['moveHTML', 'buildApp', 'buildVendor', 'buildVendorCSS', 'moveVendorFonts']);
 
 gulp.task('connect', function(){
   connect.server({
