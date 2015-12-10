@@ -1,2 +1,15 @@
-<h1>{{ dc.person.name }}</h1>
-<h2>{{ dc.person.twitter }}</h2>
+<form ng-if="!dc.person.id">
+  <h1>
+    <label for="name">Name:</label>
+    <input type="text" id="name" ng-model="dc.person.name">
+  </h1>
+  <h2>
+    <label for="twitter">Twitter:</label>
+    <input type="text" id="twitter" ng-model="dc.person.twitter">
+  </h2>
+</form>
+<div ng-if="dc.person.id">
+  <h1><span editable-text="dc.person.name">{{ dc.person.name }}</span></h1>
+  <h2><span editable-text="dc.person.twitter">{{ dc.person.twitter }}</span></h2>
+</div>
+<button class="btn btn-primary" ng-click="dc.save()">save</button>

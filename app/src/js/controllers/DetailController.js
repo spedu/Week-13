@@ -1,5 +1,16 @@
-angular.module('resthitter').controller('DetailController', [function(){
+angular.module('resthitter').controller('DetailController', ['$location', '$routeParams', 'People', function($location, $routeParams, People) {
   var dc = this;
-  dc.person = {id: 1, name: "Placeholder", twitter: "@placeholder"};
+
+  if($routeParams.id !== undefined) {
+    dc.person = People.get({id: $routeParams.id});
+  } else {
+    dc.person = new People();
+  }
+  
+  dc.save = function() {
+    dc.person.$save().then(function() {
+      $location.path('/');
+    });
+  };
 
 }]);

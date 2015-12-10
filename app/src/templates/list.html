@@ -1,5 +1,7 @@
 <ul class="list-unstyled">
   <li ng-repeat="person in lc.people">
     <a ng-href="/#/person/{{ person.id }}">{{ person.name }}</a>
+    <button class="btn btn-xs" ng-click="lc.delete(person.id)"><span class="glyphicon glyphicon-remove"></span></span>
   </li>
 </ul>
+<a href="/#/new" class="btn btn-info">new</a>
